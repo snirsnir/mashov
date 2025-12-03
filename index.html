@@ -1,0 +1,1099 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>שאלון משוב - סדנת מנהלים</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #1a2d4f;
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .header p {
+            line-height: 1.8;
+            opacity: 0.95;
+            font-size: 16px;
+        }
+
+        .form-content {
+            padding: 40px 30px;
+        }
+
+        .question-group {
+            margin-bottom: 35px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-right: 4px solid #2a5298;
+        }
+
+        .question-group.hidden {
+            display: none;
+        }
+
+        .question-label {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a2d4f;
+            margin-bottom: 15px;
+            display: block;
+            line-height: 1.6;
+        }
+
+        .question-number {
+            color: #2a5298;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .radio-option, .checkbox-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .radio-option:hover, .checkbox-option:hover {
+            border-color: #2a5298;
+            background: #f0f4ff;
+        }
+
+        .radio-option input[type="radio"],
+        .checkbox-option input[type="checkbox"] {
+            margin-left: 12px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        .scale-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .scale-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .scale-option input[type="radio"] {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .scale-option label {
+            font-size: 14px;
+            color: #555;
+            text-align: center;
+        }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 100px;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #2a5298;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            padding: 18px 50px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            margin: 40px auto 0;
+            box-shadow: 0 5px 20px rgba(42, 82, 152, 0.4);
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(42, 82, 152, 0.5);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .success-message {
+            display: none;
+            background: #4caf50;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            margin: 20px 0;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .other-input {
+            margin-top: 10px;
+            display: none;
+        }
+
+        .other-input.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                border-radius: 10px;
+            }
+
+            .header {
+                padding: 25px 20px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+                margin-bottom: 15px;
+            }
+
+            .header p {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            .form-content {
+                padding: 20px 15px;
+            }
+
+            .question-group {
+                padding: 18px 15px;
+                margin-bottom: 25px;
+            }
+
+            .question-label {
+                font-size: 16px;
+                margin-bottom: 12px;
+            }
+
+            .radio-option, .checkbox-option {
+                padding: 12px 12px;
+                font-size: 15px;
+            }
+
+            .radio-option input[type="radio"],
+            .checkbox-option input[type="checkbox"] {
+                margin-left: 10px;
+                width: 18px;
+                height: 18px;
+                flex-shrink: 0;
+            }
+
+            .scale-group {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .scale-option {
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 12px 15px;
+                border: 2px solid #e0e0e0;
+                border-radius: 8px;
+                margin-bottom: 0;
+                background: white;
+            }
+
+            .scale-option input[type="radio"] {
+                margin-bottom: 0;
+                margin-left: 10px;
+                width: 22px;
+                height: 22px;
+            }
+
+            .scale-option label {
+                font-size: 15px;
+            }
+
+            .scale-labels {
+                flex-direction: column;
+                gap: 5px;
+                text-align: center;
+                font-size: 13px;
+            }
+
+            textarea, input[type="text"] {
+                padding: 12px;
+                font-size: 15px;
+                min-height: 80px;
+            }
+
+            .submit-btn {
+                width: 100%;
+                padding: 16px 30px;
+                font-size: 17px;
+                margin: 30px auto 0;
+            }
+
+            .success-message {
+                padding: 18px;
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .header p {
+                font-size: 13px;
+            }
+
+            .question-label {
+                font-size: 15px;
+            }
+
+            .radio-option, .checkbox-option {
+                padding: 10px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>שאלון משוב - סדנת המנהלים</h1>
+            <p>
+                מנהלים יקרים, בסדנת המנהלים הראשונה עם יהודה בידרמן, עסקנו בדמות המנהל.
+                כמו בכל תהליך למידה, אנו מעוניינים להמשיך תהליך המתבסס על הנושאים שעלו בסדנא ובמטרה להעביר את התהליך למציאות הטכנודע.
+                <br><br>
+                בכדי להבין מה הם האתגרים העומדים בפנינו, אנו מבקשים שתענו על השאלון הקצר הבא.
+                <br><br>
+                <strong>השאלון הינו אנונימי.</strong>
+                <br>
+                בתודה מראש, הצוות המארגן.
+            </p>
+        </div>
+
+        <form id="surveyForm" class="form-content">
+            <!-- שאלה 1 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">1.</span>
+                    הרשתי כי הסדנא הראשונה הייתה משמעותית עבורי
+                </label>
+                <div class="scale-group">
+                    <div class="scale-option">
+                        <input type="radio" name="q1" value="1" id="q1_1" required>
+                        <label for="q1_1">1</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" name="q1" value="2" id="q1_2">
+                        <label for="q1_2">2</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" name="q1" value="3" id="q1_3">
+                        <label for="q1_3">3</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" name="q1" value="4" id="q1_4">
+                        <label for="q1_4">4</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" name="q1" value="5" id="q1_5">
+                        <label for="q1_5">5</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span>כלל לא</span>
+                    <span>במידה רבה מאוד</span>
+                </div>
+            </div>
+
+            <!-- שאלה 2 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">2.</span>
+                    האם ישנם מנהלים בטכנודע שנוהגים בדחיינות, אינם ממהרים לבצע משימות או נוטים לדחות ביצוע?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q2" value="כן" required>
+                        כן
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q2" value="לא">
+                        לא
+                    </label>
+                </div>
+            </div>
+
+            <!-- שאלות 3-5 (מותנות בתשובה "כן" לשאלה 2) -->
+            <div class="question-group hidden" id="q3_group">
+                <label class="question-label">
+                    <span class="question-number">3.</span>
+                    כמה מנהלים כאלה אתה מזהה בטכנודע?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q3" value="1">
+                        1
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q3" value="2">
+                        2
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q3" value="3">
+                        3
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q3" value="יותר מ-3">
+                        יותר מ-3
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-group hidden" id="q4_group">
+                <label class="question-label">
+                    <span class="question-number">4.</span>
+                    האם שוחחת עם אותם מנהלים בעבר לגבי התנהגות זו?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q4" value="כן, שוחחתי בצורה ישירה">
+                        כן, שוחחתי בצורה ישירה
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q4" value="כן, העליתי זאת בשיחה עקיפה">
+                        כן, העליתי זאת בשיחה עקיפה
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q4" value="לא, נמנעתי מלפנות">
+                        לא, נמנעתי מלפנות
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q4" value="לא, זה לא תפקידי בעיניי">
+                        לא, זה לא תפקידי בעיניי
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-group hidden" id="q5_group">
+                <label class="question-label">
+                    <span class="question-number">5.</span>
+                    אם בחרת שלא לשוחח – מה הייתה הסיבה?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q5" value="חשש מפגיעה ביחסים">
+                        חשש מפגיעה ביחסים
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q5" value="לא חשבתי שזה יעזור">
+                        לא חשבתי שזה יעזור
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q5" value="ציפיתי שהמנהל שלהם יטפל בזה">
+                        ציפיתי שהמנהל שלהם יטפל בזה
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q5" value="חוסר זמן / עומס">
+                        חוסר זמן / עומס
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q5" value="אחר" id="q5_other_radio">
+                        אחר
+                    </label>
+                </div>
+                <input type="text" class="other-input" id="q5_other" placeholder="פרט...">
+            </div>
+
+            <!-- שאלה 6 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">6.</span>
+                    האם ישנם מנהלים שנוטים "להתקרבן" — להסביר אי־ביצוע בתירוצים, האשמת גורמים אחרים או עומס קבוע?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q6" value="כן" required>
+                        כן
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q6" value="לא">
+                        לא
+                    </label>
+                </div>
+            </div>
+
+            <!-- שאלות 7-8 (מותנות) -->
+            <div class="question-group hidden" id="q7_group">
+                <label class="question-label">
+                    <span class="question-number">7.</span>
+                    כמה מנהלים כאלה אתה מזהה בטכנודע?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q7" value="1">
+                        1
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q7" value="2">
+                        2
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q7" value="3">
+                        3
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q7" value="יותר מ-3">
+                        יותר מ-3
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-group hidden" id="q8_group">
+                <label class="question-label">
+                    <span class="question-number">8.</span>
+                    האם אי פעם שוחחת עם מנהל שנוטה להתקרבן על התנהגות זו?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q8" value="כן">
+                        כן
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q8" value="לא">
+                        לא
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q8" value="ניסיתי אך ללא שינוי">
+                        ניסיתי אך ללא שינוי
+                    </label>
+                </div>
+            </div>
+
+            <!-- שאלה 9 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">9.</span>
+                    האם אתה מכיר מנהלים שנוטים להגיב בשלילה מיידית לבקשות ("אי אפשר", "אין לי זמן", "זה לא יקרה") לפני שבדקו מה כן ניתן לעשות?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q9" value="כן" required>
+                        כן
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q9" value="לא">
+                        לא
+                    </label>
+                </div>
+            </div>
+
+            <!-- שאלות 10-11 (מותנות) -->
+            <div class="question-group hidden" id="q10_group">
+                <label class="question-label">
+                    <span class="question-number">10.</span>
+                    כמה מנהלים כאלה אתה מזהה בטכנודע?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q10" value="1">
+                        1
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q10" value="2">
+                        2
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q10" value="3">
+                        3
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q10" value="יותר מ-3">
+                        יותר מ-3
+                    </label>
+                </div>
+            </div>
+
+            <div class="question-group hidden" id="q11_group">
+                <label class="question-label">
+                    <span class="question-number">11.</span>
+                    האם התייחסת מולם לתגובתיות זו בעבר?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q11" value="כן, שוחחתי איתם">
+                        כן, שוחחתי איתם
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q11" value="לא, בחרתי שלא">
+                        לא, בחרתי שלא
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q11" value="חשבתי שזה לא יעזור">
+                        חשבתי שזה לא יעזור
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q11" value="תיאמתי עם מנהל אחר לטפל בזה">
+                        תיאמתי עם מנהל אחר לטפל בזה
+                    </label>
+                </div>
+            </div>
+
+            <!-- שאלה 12 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">12.</span>
+                    האם אתה מזהה מנהלים שחסרה אצלם פרואקטיביות (יוזמה, פתרון בעיות, ראיית מעגל ההשפעה)?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q12" value="כן" required>
+                        כן
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q12" value="לא">
+                        לא
+                    </label>
+                </div>
+            </div>
+
+            <!-- שאלה 13 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">13.</span>
+                    האם מקובל בעיניך לפנות לקולגות בנושא כזה?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q13" value="כן" required>
+                        כן
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q13" value="תלוי בסיטואציה">
+                        תלוי בסיטואציה
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q13" value="לא">
+                        לא
+                    </label>
+                </div>
+            </div>
+
+            <!-- שאלה 14 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">14.</span>
+                    האם תרצה לציין שמות או דוגמאות ספציפיות? (אופציונלי)
+                </label>
+                <textarea name="q14" placeholder="הזן כאן..."></textarea>
+            </div>
+
+            <!-- שאלה 15 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">15.</span>
+                    עד כמה התנהגויות הדחיינות/התקרבנות/שלילה שנתקלת בהן משפיעות על עבודתך או על עבודת הצוותים בארגון?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q15" value="משפיעות מאוד לרעה" required>
+                        משפיעות מאוד לרעה
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q15" value="משפיעות במידה בינונית">
+                        משפיעות במידה בינונית
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q15" value="משפיעות מעט">
+                        משפיעות מעט
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q15" value="אינן משפיעות">
+                        אינן משפיעות
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q15" value="איני יודע">
+                        איני יודע
+                    </label>
+                </div>
+            </div>
+
+            <!-- שאלה 16 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">16.</span>
+                    כשאתה מזהה פער התנהגותי אצל קולגה — מהי התגובה הטבעית שלך?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q16" value="אני פונה אליו בשיחה ישירה" required>
+                        אני פונה אליו בשיחה ישירה
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q16" value="אני מתייעץ עם מנהל אחר">
+                        אני מתייעץ עם מנהל אחר
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q16" value="אני נותן לדברים &quot;להסתדר מעצמם&quot;">
+                        אני נותן לדברים "להסתדר מעצמם"
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q16" value="אני נמנע בגלל חשש לעימות">
+                        אני נמנע בגלל חשש לעימות
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q16" value="אחר" id="q16_other_radio">
+                        אחר
+                    </label>
+                </div>
+                <input type="text" class="other-input" id="q16_other" placeholder="פרט...">
+            </div>
+
+            <!-- שאלה 17 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">17.</span>
+                    האם אתה מרגיש שיש בטכנודע לגיטימציה לקיים "שיחות אמיצות" בין מנהלים?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q17" value="כן, מאוד" required>
+                        כן, מאוד
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q17" value="כן, מעט">
+                        כן, מעט
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q17" value="לא מספיק">
+                        לא מספיק
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q17" value="בכלל לא">
+                        בכלל לא
+                    </label>
+                </div>
+            </div>
+
+            <!-- שאלה 18 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">18.</span>
+                    עד כמה אתה מרגיש שיש כנות ופתיחות בין חברי ההנהלה בנוגע להתנהגויות בעייתיות?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q18" value="גבוהה מאוד" required>
+                        גבוהה מאוד
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q18" value="גבוהה">
+                        גבוהה
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q18" value="בינונית">
+                        בינונית
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q18" value="נמוכה">
+                        נמוכה
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q18" value="נמוכה מאוד">
+                        נמוכה מאוד
+                    </label>
+                </div>
+            </div>
+
+            <!-- שאלה 19 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">19.</span>
+                    עד כמה אתה מרגיש שהמנהלים שעליהם דיווחת מודעים לפער ההתנהגותי שאתה מתאר?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q19" value="מודעים מאוד" required>
+                        מודעים מאוד
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q19" value="מודעים חלקית">
+                        מודעים חלקית
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q19" value="לא מודעים">
+                        לא מודעים
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q19" value="מתנגדים למשוב">
+                        מתנגדים למשוב
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q19" value="איני יודע">
+                        איני יודע
+                    </label>
+                </div>
+            </div>
+
+            <!-- שאלה 20 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">20.</span>
+                    מה לדעתך שורש ההתנהגות (דחיינות / התקרבנות / תגובה שלילית)? (ניתן לבחור יותר מתשובה אחת)
+                </label>
+                <div class="checkbox-group">
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="q20" value="עומס אמיתי">
+                        עומס אמיתי
+                    </label>
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="q20" value="חוסר מיומנות ניהולית">
+                        חוסר מיומנות ניהולית
+                    </label>
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="q20" value="חוסר ביטחון בתפקיד">
+                        חוסר ביטחון בתפקיד
+                    </label>
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="q20" value="פחד מקבלת החלטות">
+                        פחד מקבלת החלטות
+                    </label>
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="q20" value="חוסר רצון לקחת אחריות">
+                        חוסר רצון לקחת אחריות
+                    </label>
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="q20" value="היעדר משוב בעבר">
+                        היעדר משוב בעבר
+                    </label>
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="q20" value="אחר" id="q20_other_check">
+                        אחר
+                    </label>
+                </div>
+                <input type="text" class="other-input" id="q20_other" placeholder="פרט...">
+            </div>
+
+            <!-- שאלה 21 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">21.</span>
+                    האם ההתנהגויות שתיארת הן נקודתיות או עקביות לאורך זמן?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q21" value="עקביות מאוד" required>
+                        עקביות מאוד
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q21" value="חוזרות מדי פעם">
+                        חוזרות מדי פעם
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q21" value="מקרים בודדים">
+                        מקרים בודדים
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q21" value="לא בטוח">
+                        לא בטוח
+                    </label>
+                </div>
+            </div>
+
+            <!-- שאלה 22 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">22.</span>
+                    כיצד לדעתך ההנהלה כקבוצה יכולה לטפל בתופעה זו?
+                </label>
+                <textarea name="q22" placeholder="הזן כאן..."></textarea>
+            </div>
+
+            <div class="success-message" id="successMessage">
+                התשובות נשלחו בהצלחה! תודה על השתתפותך.
+            </div>
+
+            <button type="submit" class="submit-btn">שלח את השאלון</button>
+        </form>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQ82MgwWCmMaEQQbyCKc_O2sA4i3tJ8ZI",
+            authDomain: "forme-a3c26.firebaseapp.com",
+            databaseURL: "https://forme-a3c26-default-rtdb.firebaseio.com",
+            projectId: "forme-a3c26",
+            storageBucket: "forme-a3c26.firebasestorage.app",
+            messagingSenderId: "1026375487564",
+            appId: "1:1026375487564:web:6a275bacad937a283ba4e9"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Logic for conditional questions
+        const q2Radios = document.querySelectorAll('input[name="q2"]');
+        const q3Group = document.getElementById('q3_group');
+        const q4Group = document.getElementById('q4_group');
+        const q5Group = document.getElementById('q5_group');
+
+        q2Radios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'כן') {
+                    q3Group.classList.remove('hidden');
+                    q4Group.classList.remove('hidden');
+                    q5Group.classList.remove('hidden');
+                    document.querySelectorAll('#q3_group input[type="radio"]')[0].required = true;
+                    document.querySelectorAll('#q4_group input[type="radio"]')[0].required = true;
+                } else {
+                    q3Group.classList.add('hidden');
+                    q4Group.classList.add('hidden');
+                    q5Group.classList.add('hidden');
+                    document.querySelectorAll('#q3_group input[type="radio"]').forEach(input => {
+                        input.required = false;
+                        input.checked = false;
+                    });
+                    document.querySelectorAll('#q4_group input[type="radio"]').forEach(input => {
+                        input.required = false;
+                        input.checked = false;
+                    });
+                    document.querySelectorAll('#q5_group input[type="radio"]').forEach(input => {
+                        input.checked = false;
+                    });
+                    document.getElementById('q5_other').value = '';
+                }
+            });
+        });
+
+        const q6Radios = document.querySelectorAll('input[name="q6"]');
+        const q7Group = document.getElementById('q7_group');
+        const q8Group = document.getElementById('q8_group');
+
+        q6Radios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'כן') {
+                    q7Group.classList.remove('hidden');
+                    q8Group.classList.remove('hidden');
+                    document.querySelectorAll('#q7_group input[type="radio"]')[0].required = true;
+                    document.querySelectorAll('#q8_group input[type="radio"]')[0].required = true;
+                } else {
+                    q7Group.classList.add('hidden');
+                    q8Group.classList.add('hidden');
+                    document.querySelectorAll('#q7_group input[type="radio"]').forEach(input => {
+                        input.required = false;
+                        input.checked = false;
+                    });
+                    document.querySelectorAll('#q8_group input[type="radio"]').forEach(input => {
+                        input.required = false;
+                        input.checked = false;
+                    });
+                }
+            });
+        });
+
+        const q9Radios = document.querySelectorAll('input[name="q9"]');
+        const q10Group = document.getElementById('q10_group');
+        const q11Group = document.getElementById('q11_group');
+
+        q9Radios.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value === 'כן') {
+                    q10Group.classList.remove('hidden');
+                    q11Group.classList.remove('hidden');
+                    document.querySelectorAll('#q10_group input[type="radio"]')[0].required = true;
+                    document.querySelectorAll('#q11_group input[type="radio"]')[0].required = true;
+                } else {
+                    q10Group.classList.add('hidden');
+                    q11Group.classList.add('hidden');
+                    document.querySelectorAll('#q10_group input[type="radio"]').forEach(input => {
+                        input.required = false;
+                        input.checked = false;
+                    });
+                    document.querySelectorAll('#q11_group input[type="radio"]').forEach(input => {
+                        input.required = false;
+                        input.checked = false;
+                    });
+                }
+            });
+        });
+
+        // Handle "Other" inputs
+        document.getElementById('q5_other_radio').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('q5_other').classList.add('show');
+            }
+        });
+
+        document.querySelectorAll('input[name="q5"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value !== 'אחר') {
+                    document.getElementById('q5_other').classList.remove('show');
+                    document.getElementById('q5_other').value = '';
+                }
+            });
+        });
+
+        document.getElementById('q16_other_radio').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('q16_other').classList.add('show');
+            }
+        });
+
+        document.querySelectorAll('input[name="q16"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.value !== 'אחר') {
+                    document.getElementById('q16_other').classList.remove('show');
+                    document.getElementById('q16_other').value = '';
+                }
+            });
+        });
+
+        document.getElementById('q20_other_check').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('q20_other').classList.add('show');
+            } else {
+                document.getElementById('q20_other').classList.remove('show');
+                document.getElementById('q20_other').value = '';
+            }
+        });
+
+        // Form submission
+        const form = document.getElementById('surveyForm');
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const answers = {
+                timestamp: new Date().toISOString(),
+                q1: formData.get('q1'),
+                q2: formData.get('q2'),
+                q3: formData.get('q3') || 'לא רלוונטי',
+                q4: formData.get('q4') || 'לא רלוונטי',
+                q5: formData.get('q5') === 'אחר' ? document.getElementById('q5_other').value : (formData.get('q5') || 'לא רלוונטי'),
+                q6: formData.get('q6'),
+                q7: formData.get('q7') || 'לא רלוונטי',
+                q8: formData.get('q8') || 'לא רלוונטי',
+                q9: formData.get('q9'),
+                q10: formData.get('q10') || 'לא רלוונטי',
+                q11: formData.get('q11') || 'לא רלוונטי',
+                q12: formData.get('q12'),
+                q13: formData.get('q13'),
+                q14: formData.get('q14') || '',
+                q15: formData.get('q15'),
+                q16: formData.get('q16') === 'אחר' ? document.getElementById('q16_other').value : formData.get('q16'),
+                q17: formData.get('q17'),
+                q18: formData.get('q18'),
+                q19: formData.get('q19'),
+                q20: formData.getAll('q20').includes('אחר') ?
+                    [...formData.getAll('q20').filter(v => v !== 'אחר'), document.getElementById('q20_other').value] :
+                    formData.getAll('q20'),
+                q21: formData.get('q21'),
+                q22: formData.get('q22') || ''
+            };
+
+            try {
+                const submitBtn = document.querySelector('.submit-btn');
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'שולח...';
+
+                await push(ref(database, 'survey_responses'), answers);
+
+                document.getElementById('successMessage').classList.add('show');
+                form.style.display = 'none';
+            } catch (error) {
+                console.error('Error:', error);
+                alert('אירעה שגיאה בשליחת השאלון. אנא נסה שוב.');
+                const submitBtn = document.querySelector('.submit-btn');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'שלח את השאלון';
+            }
+        });
+    </script>
+</body>
+</html>
