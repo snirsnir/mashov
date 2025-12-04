@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -399,49 +399,49 @@
 
                 <div class="chart-container">
                     <h2>שאלה 12</h2>
-                    <div class="question-subtitle">האם אתה מזהה מנהלים שחסרה אצלם פרואקטיביות (יוזמה, פתרון בעיות, ראיית מעגל ההשפעה)?</div>
+                    <div class="question-subtitle">עד כמה התנהגויות הדחיינות/התקרבנות/שלילה משפיעות על עבודתך או על עבודת הצוותים בארגון?</div>
                     <canvas id="q12Chart"></canvas>
                 </div>
 
                 <div class="chart-container">
                     <h2>שאלה 13</h2>
-                    <div class="question-subtitle">האם מקובל בעיניך לפנות לקולגות בנושא כזה?</div>
+                    <div class="question-subtitle">מה לדעתך שורש ההתנהגות (דחיינות / התקרבנות / תגובה שלילית)? (בחירה מרובה)</div>
                     <canvas id="q13Chart"></canvas>
                 </div>
 
                 <div class="chart-container">
+                    <h2>שאלה 14</h2>
+                    <div class="question-subtitle">האם אתה מזהה מנהלים שחסרה אצלם פרואקטיביות (יוזמה, פתרון בעיות, ראיית מעגל ההשפעה)?</div>
+                    <canvas id="q14Chart"></canvas>
+                </div>
+
+                <div class="chart-container">
                     <h2>שאלה 15</h2>
-                    <div class="question-subtitle">עד כמה התנהגויות הדחיינות/התקרבנות/שלילה משפיעות על עבודתך או על עבודת הצוותים בארגון?</div>
+                    <div class="question-subtitle">האם מקובל בעיניך לפנות לקולגות בנושא כזה? (פרואקטיביות)</div>
                     <canvas id="q15Chart"></canvas>
                 </div>
 
                 <div class="chart-container">
-                    <h2>שאלה 16</h2>
-                    <div class="question-subtitle">כשאתה מזהה פער התנהגותי אצל קולגה - מהי התגובה הטבעית שלך?</div>
-                    <canvas id="q16Chart"></canvas>
-                </div>
-
-                <div class="chart-container">
                     <h2>שאלה 17</h2>
-                    <div class="question-subtitle">האם אתה מרגיש שיש בטכנודע לגיטימציה לקיים "שיחות אמיצות" בין מנהלים?</div>
+                    <div class="question-subtitle">כשאתה מזהה פער התנהגותי אצל קולגה - מהי התגובה הטבעית שלך?</div>
                     <canvas id="q17Chart"></canvas>
                 </div>
 
                 <div class="chart-container">
                     <h2>שאלה 18</h2>
-                    <div class="question-subtitle">עד כמה אתה מרגיש שיש כנות ופתיחות בין חברי ההנהלה בנוגע להתנהגויות בעייתיות?</div>
+                    <div class="question-subtitle">האם אתה מרגיש שיש בטכנודע לגיטימציה לקיים "שיחות אמיצות" בין מנהלים?</div>
                     <canvas id="q18Chart"></canvas>
                 </div>
 
                 <div class="chart-container">
                     <h2>שאלה 19</h2>
-                    <div class="question-subtitle">עד כמה אתה מרגיש שהמנהלים שעליהם דיווחת מודעים לפער ההתנהגותי שאתה מתאר?</div>
+                    <div class="question-subtitle">עד כמה אתה מרגיש שיש כנות ופתיחות בין חברי ההנהלה בנוגע להתנהגויות בעייתיות?</div>
                     <canvas id="q19Chart"></canvas>
                 </div>
 
                 <div class="chart-container">
                     <h2>שאלה 20</h2>
-                    <div class="question-subtitle">מה לדעתך שורש ההתנהגות (דחיינות / התקרבנות / תגובה שלילית)? (בחירה מרובה)</div>
+                    <div class="question-subtitle">עד כמה אתה מרגיש שהמנהלים שעליהם דיווחת מודעים לפער ההתנהגותי שאתה מתאר?</div>
                     <canvas id="q20Chart"></canvas>
                 </div>
 
@@ -453,8 +453,8 @@
             </div>
 
             <div class="text-responses">
-                <h2>שאלה 14: שמות או דוגמאות ספציפיות</h2>
-                <div id="q14Responses"></div>
+                <h2>שאלה 16: שמות או דוגמאות ספציפיות (פרואקטיביות)</h2>
+                <div id="q16Responses"></div>
             </div>
 
             <div class="text-responses">
@@ -571,18 +571,8 @@
                 return labels.map(l => colorMap[l] || colorSchemes.neutral[0]);
             }
 
-            // Q13 - willingness to approach colleagues
-            if (questionNum === 13) {
-                const colorMap = {
-                    'כן': colorSchemes.positive[0],
-                    'תלוי בסיטואציה': colorSchemes.neutral[0],
-                    'לא': colorSchemes.negative[0]
-                };
-                return labels.map(l => colorMap[l] || colorSchemes.neutral[0]);
-            }
-
-            // Q15 - impact on work (negative impact = red)
-            if (questionNum === 15) {
+            // Q12 - impact on work (negative impact = red)
+            if (questionNum === 12) {
                 const colorMap = {
                     'משפיעות מאוד לרעה': colorSchemes.negative[0],
                     'משפיעות במידה בינונית': colorSchemes.negative[2],
@@ -593,8 +583,23 @@
                 return labels.map(l => colorMap[l] || colorSchemes.neutral[0]);
             }
 
-            // Q16 - natural response
-            if (questionNum === 16) {
+            // Q14 - proactivity (כן/לא)
+            if (questionNum === 14) {
+                return labels.map(l => l === 'כן' ? colorSchemes.negative[0] : colorSchemes.positive[0]);
+            }
+
+            // Q15 - willingness to approach colleagues
+            if (questionNum === 15) {
+                const colorMap = {
+                    'כן': colorSchemes.positive[0],
+                    'תלוי בסיטואציה': colorSchemes.neutral[0],
+                    'לא': colorSchemes.negative[0]
+                };
+                return labels.map(l => colorMap[l] || colorSchemes.neutral[0]);
+            }
+
+            // Q17 - natural response
+            if (questionNum === 17) {
                 const colorMap = {
                     'אני פונה אליו בשיחה ישירה': colorSchemes.positive[0],
                     'אני מתייעץ עם מנהל אחר': colorSchemes.positive[2],
@@ -604,8 +609,8 @@
                 return labels.map(l => colorMap[l] || colorSchemes.neutral[0]);
             }
 
-            // Q17 - legitimacy for brave conversations
-            if (questionNum === 17) {
+            // Q18 - legitimacy for brave conversations
+            if (questionNum === 18) {
                 const colorMap = {
                     'כן, מאוד': colorSchemes.positive[0],
                     'כן, מעט': colorSchemes.positive[2],
@@ -615,8 +620,8 @@
                 return labels.map(l => colorMap[l] || colorSchemes.neutral[0]);
             }
 
-            // Q18 - honesty and openness
-            if (questionNum === 18) {
+            // Q19 - honesty and openness
+            if (questionNum === 19) {
                 const colorMap = {
                     'גבוהה מאוד': colorSchemes.positive[0],
                     'גבוהה': colorSchemes.positive[1],
@@ -627,8 +632,8 @@
                 return labels.map(l => colorMap[l] || colorSchemes.neutral[0]);
             }
 
-            // Q19 - awareness of behavioral gap
-            if (questionNum === 19) {
+            // Q20 - awareness of behavioral gap
+            if (questionNum === 20) {
                 const colorMap = {
                     'מודעים מאוד': colorSchemes.positive[0],
                     'מודעים חלקית': colorSchemes.neutral[0],
@@ -724,16 +729,16 @@
             createChart('q9Chart', 9, 'תגובות', q9Counts, 'doughnut');
 
             const q12Counts = countValues(allResponses, 'q12');
-            createChart('q12Chart', 12, 'תגובות', q12Counts, 'doughnut');
+            createChart('q12Chart', 12, 'תגובות', q12Counts, 'bar');
 
             const q13Counts = countValues(allResponses, 'q13');
-            createChart('q13Chart', 13, 'תגובות', q13Counts, 'doughnut');
+            createChart('q13Chart', 13, 'תגובות', q13Counts, 'bar');
+
+            const q14Counts = countValues(allResponses, 'q14');
+            createChart('q14Chart', 14, 'תגובות', q14Counts, 'doughnut');
 
             const q15Counts = countValues(allResponses, 'q15');
-            createChart('q15Chart', 15, 'תגובות', q15Counts, 'bar');
-
-            const q16Counts = countValues(allResponses, 'q16');
-            createChart('q16Chart', 16, 'תגובות', q16Counts, 'bar');
+            createChart('q15Chart', 15, 'תגובות', q15Counts, 'doughnut');
 
             const q17Counts = countValues(allResponses, 'q17');
             createChart('q17Chart', 17, 'תגובות', q17Counts, 'bar');
@@ -752,16 +757,16 @@
         }
 
         function renderTextResponses() {
-            const q14Container = document.getElementById('q14Responses');
-            const q14Responses = allResponses.filter(r => r.q14 && r.q14.trim() !== '');
+            const q16Container = document.getElementById('q16Responses');
+            const q16Responses = allResponses.filter(r => r.q16 && r.q16.trim() !== '');
 
-            if (q14Responses.length === 0) {
-                q14Container.innerHTML = '<div class="no-data">אין תגובות טקסט</div>';
+            if (q16Responses.length === 0) {
+                q16Container.innerHTML = '<div class="no-data">אין תגובות טקסט</div>';
             } else {
-                q14Container.innerHTML = q14Responses.map(r => `
+                q16Container.innerHTML = q16Responses.map(r => `
                     <div class="response-item">
                         <div class="timestamp">${new Date(r.timestamp).toLocaleString('he-IL')}</div>
-                        <div class="content">${r.q14}</div>
+                        <div class="content">${r.q16}</div>
                     </div>
                 `).join('');
             }
@@ -800,15 +805,15 @@
                 'שאלה 9 - תגובתיות שלילית',
                 'שאלה 10 - כמה מנהלים בתגובתיות שלילית',
                 'שאלה 11 - התייחסת לתגובתיות',
-                'שאלה 12 - חוסר פרואקטיביות',
-                'שאלה 13 - מקובל לפנות לקולגות',
-                'שאלה 14 - שמות ודוגמאות',
-                'שאלה 15 - השפעה על העבודה',
-                'שאלה 16 - תגובה טבעית לפער',
-                'שאלה 17 - לגיטימציה לשיחות אמיצות',
-                'שאלה 18 - כנות ופתיחות',
-                'שאלה 19 - מודעות לפער',
-                'שאלה 20 - שורש ההתנהגות',
+                'שאלה 12 - השפעה על העבודה',
+                'שאלה 13 - שורש ההתנהגות',
+                'שאלה 14 - חוסר פרואקטיביות',
+                'שאלה 15 - מקובל לפנות לקולגות (פרואקטיביות)',
+                'שאלה 16 - שמות ודוגמאות (פרואקטיביות)',
+                'שאלה 17 - תגובה טבעית לפער',
+                'שאלה 18 - לגיטימציה לשיחות אמיצות',
+                'שאלה 19 - כנות ופתיחות',
+                'שאלה 20 - מודעות לפער',
                 'שאלה 21 - עקביות ההתנהגויות',
                 'שאלה 22 - כיצד לטפל בתופעה'
             ];
@@ -830,14 +835,14 @@
                     r.q10,
                     r.q11,
                     r.q12,
-                    r.q13,
-                    `"${(r.q14 || '').replace(/"/g, '""')}"`,
+                    Array.isArray(r.q13) ? `"${r.q13.join(', ')}"` : r.q13,
+                    r.q14,
                     r.q15,
-                    r.q16,
+                    `"${(r.q16 || '').replace(/"/g, '""')}"`,
                     r.q17,
                     r.q18,
                     r.q19,
-                    Array.isArray(r.q20) ? `"${r.q20.join(', ')}"` : r.q20,
+                    r.q20,
                     r.q21,
                     `"${(r.q22 || '').replace(/"/g, '""')}"`
                 ];
