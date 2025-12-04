@@ -363,7 +363,7 @@
             <div class="charts-grid">
                 <div class="chart-container">
                     <h2>שאלה 1</h2>
-                    <div class="question-subtitle">הרשתי כי הסדנא הראשונה הייתה משמעותית עבורי</div>
+                    <div class="question-subtitle">הרגשתי כי הסדנא הראשונה הייתה משמעותית עבורי</div>
                     <canvas id="q1Chart"></canvas>
                 </div>
 
@@ -544,11 +544,33 @@
             return counts;
         }
 
+        // פונקציה להמרת ערכי שאלה 1 לתיאורים
+        function convertQ1Labels(counts) {
+            const labelMap = {
+                '1': '1 - כלל לא',
+                '2': '2 - במידה מועטה',
+                '3': '3 - במידה בינונית',
+                '4': '4 - במידה רבה',
+                '5': '5 - במידה רבה מאוד'
+            };
+
+            // צור אובייקט חדש בסדר הנכון (1,2,3,4,5)
+            const newCounts = {};
+            ['1', '2', '3', '4', '5'].forEach(key => {
+                if (counts[key]) {
+                    const newKey = labelMap[key];
+                    newCounts[newKey] = counts[key];
+                }
+            });
+            return newCounts;
+        }
+
         function getColorsForQuestion(questionNum, labels) {
             // Q1 - higher is better (positive)
             if (questionNum === 1) {
                 return labels.map(l => {
-                    const val = parseInt(l);
+                    // חלץ את המספר מהתיאור (למשל "4 - במידה רבה" -> 4)
+                    const val = parseInt(l.split(' ')[0]) || parseInt(l);
                     if (val >= 4) return colorSchemes.positive[0];
                     if (val === 3) return colorSchemes.neutral[0];
                     return colorSchemes.negative[0];
@@ -664,9 +686,8 @@
             const labels = Object.keys(counts);
             const data = Object.values(counts);
 
-            const colors = type === 'doughnut' || type === 'pie' ?
-                getColorsForQuestion(questionNum, labels) :
-                colorSchemes.neutral[0];
+            // תמיד קבל צבעים לפי מספר השאלה - גם לעמודות וגם ל-doughnut
+            const colors = getColorsForQuestion(questionNum, labels);
 
             new Chart(ctx, {
                 type: type,
@@ -677,7 +698,9 @@
                         data: data,
                         backgroundColor: colors,
                         borderColor: type === 'bar' ? '#1e3c72' : 'white',
-                        borderWidth: type === 'bar' ? 1 : 2
+                        borderWidth: type === 'bar' ? 1 : 2,
+                        barThickness: type === 'bar' ? 40 : undefined,  // עובי עמודה מוגבל
+                        maxBarThickness: type === 'bar' ? 50 : undefined  // מקסימום עובי
                     }]
                 },
                 options: {
@@ -703,6 +726,11 @@
                             ticks: {
                                 stepSize: 1
                             }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
                         }
                     } : {}
                 }
@@ -710,7 +738,7 @@
         }
 
         function renderCharts() {
-            const q1Counts = countValues(allResponses, 'q1');
+            const q1Counts = convertQ1Labels(countValues(allResponses, 'q1'));
             createChart('q1Chart', 1, 'תגובות', q1Counts, 'bar');
 
             const q2Counts = countValues(allResponses, 'q2');
