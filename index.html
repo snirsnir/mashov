@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -626,16 +626,28 @@
             <div class="question-group">
                 <label class="question-label">
                     <span class="question-number">12.</span>
-                    האם אתה מזהה מנהלים שחסרה אצלם פרואקטיביות (יוזמה, פתרון בעיות, ראיית מעגל ההשפעה)?
+                    עד כמה התנהגויות הדחיינות/התקרבנות/שלילה שנתקלת בהן משפיעות על עבודתך או על עבודת הצוותים בארגון?
                 </label>
                 <div class="radio-group">
                     <label class="radio-option">
-                        <input type="radio" name="q12" value="כן" required>
-                        כן
+                        <input type="radio" name="q12" value="משפיעות מאוד לרעה" required>
+                        משפיעות מאוד לרעה
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="q12" value="לא">
-                        לא
+                        <input type="radio" name="q12" value="משפיעות במידה בינונית">
+                        משפיעות במידה בינונית
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q12" value="משפיעות מעט">
+                        משפיעות מעט
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q12" value="אינן משפיעות">
+                        אינן משפיעות
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q12" value="איני יודע">
+                        איני יודע
                     </label>
                 </div>
             </div>
@@ -644,59 +656,77 @@
             <div class="question-group">
                 <label class="question-label">
                     <span class="question-number">13.</span>
-                    האם מקובל בעיניך לפנות לקולגות בנושא כזה?
+                    מה לדעתך שורש ההתנהגות (דחיינות / התקרבנות / תגובה שלילית)? (ניתן לבחור יותר מתשובה אחת)
                 </label>
-                <div class="radio-group">
-                    <label class="radio-option">
-                        <input type="radio" name="q13" value="כן" required>
-                        כן
+                <div class="checkbox-group">
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="q13" value="עומס אמיתי">
+                        עומס אמיתי
                     </label>
-                    <label class="radio-option">
-                        <input type="radio" name="q13" value="תלוי בסיטואציה">
-                        תלוי בסיטואציה
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="q13" value="חוסר מיומנות ניהולית">
+                        חוסר מיומנות ניהולית
                     </label>
-                    <label class="radio-option">
-                        <input type="radio" name="q13" value="לא">
-                        לא
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="q13" value="חוסר ביטחון בתפקיד">
+                        חוסר ביטחון בתפקיד
+                    </label>
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="q13" value="פחד מקבלת החלטות">
+                        פחד מקבלת החלטות
+                    </label>
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="q13" value="חוסר רצון לקחת אחריות">
+                        חוסר רצון לקחת אחריות
+                    </label>
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="q13" value="היעדר משוב בעבר">
+                        היעדר משוב בעבר
+                    </label>
+                    <label class="checkbox-option">
+                        <input type="checkbox" name="q13" value="אחר" id="q13_other_check">
+                        אחר
                     </label>
                 </div>
+                <input type="text" class="other-input" id="q13_other" placeholder="פרט...">
             </div>
 
             <!-- שאלה 14 -->
             <div class="question-group">
                 <label class="question-label">
                     <span class="question-number">14.</span>
-                    האם תרצה לציין שמות או דוגמאות ספציפיות? (אופציונלי)
+                    האם אתה מזהה מנהלים שחסרה אצלם פרואקטיביות (יוזמה, פתרון בעיות, ראיית מעגל ההשפעה)?
                 </label>
-                <textarea name="q14" placeholder="הזן כאן..."></textarea>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q14" value="כן" required>
+                        כן
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q14" value="לא">
+                        לא
+                    </label>
+                </div>
             </div>
 
             <!-- שאלה 15 -->
             <div class="question-group">
                 <label class="question-label">
                     <span class="question-number">15.</span>
-                    עד כמה התנהגויות הדחיינות/התקרבנות/שלילה שנתקלת בהן משפיעות על עבודתך או על עבודת הצוותים בארגון?
+                    האם מקובל בעיניך לפנות לקולגות בנושא כזה? (פרואקטיביות)
                 </label>
                 <div class="radio-group">
                     <label class="radio-option">
-                        <input type="radio" name="q15" value="משפיעות מאוד לרעה" required>
-                        משפיעות מאוד לרעה
+                        <input type="radio" name="q15" value="כן" required>
+                        כן
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="q15" value="משפיעות במידה בינונית">
-                        משפיעות במידה בינונית
+                        <input type="radio" name="q15" value="תלוי בסיטואציה">
+                        תלוי בסיטואציה
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="q15" value="משפיעות מעט">
-                        משפיעות מעט
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" name="q15" value="אינן משפיעות">
-                        אינן משפיעות
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" name="q15" value="איני יודע">
-                        איני יודע
+                        <input type="radio" name="q15" value="לא">
+                        לא
                     </label>
                 </div>
             </div>
@@ -705,85 +735,64 @@
             <div class="question-group">
                 <label class="question-label">
                     <span class="question-number">16.</span>
-                    כשאתה מזהה פער התנהגותי אצל קולגה — מהי התגובה הטבעית שלך?
+                    האם תרצה לציין שמות או דוגמאות ספציפיות? (פרואקטיביות)
                 </label>
-                <div class="radio-group">
-                    <label class="radio-option">
-                        <input type="radio" name="q16" value="אני פונה אליו בשיחה ישירה" required>
-                        אני פונה אליו בשיחה ישירה
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" name="q16" value="אני מתייעץ עם מנהל אחר">
-                        אני מתייעץ עם מנהל אחר
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" name="q16" value="אני נותן לדברים &quot;להסתדר מעצמם&quot;">
-                        אני נותן לדברים "להסתדר מעצמם"
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" name="q16" value="אני נמנע בגלל חשש לעימות">
-                        אני נמנע בגלל חשש לעימות
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" name="q16" value="אחר" id="q16_other_radio">
-                        אחר
-                    </label>
-                </div>
-                <input type="text" class="other-input" id="q16_other" placeholder="פרט...">
+                <textarea name="q16" placeholder="הזן כאן..."></textarea>
             </div>
 
             <!-- שאלה 17 -->
             <div class="question-group">
                 <label class="question-label">
                     <span class="question-number">17.</span>
-                    האם אתה מרגיש שיש בטכנודע לגיטימציה לקיים "שיחות אמיצות" בין מנהלים?
+                    כשאתה מזהה פער התנהגותי אצל קולגה — מהי התגובה הטבעית שלך?
                 </label>
                 <div class="radio-group">
                     <label class="radio-option">
-                        <input type="radio" name="q17" value="כן, מאוד" required>
-                        כן, מאוד
+                        <input type="radio" name="q17" value="אני פונה אליו בשיחה ישירה" required>
+                        אני פונה אליו בשיחה ישירה
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="q17" value="כן, מעט">
-                        כן, מעט
+                        <input type="radio" name="q17" value="אני מתייעץ עם מנהל אחר">
+                        אני מתייעץ עם מנהל אחר
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="q17" value="לא מספיק">
-                        לא מספיק
+                        <input type="radio" name="q17" value="אני נותן לדברים &quot;להסתדר מעצמם&quot;">
+                        אני נותן לדברים "להסתדר מעצמם"
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="q17" value="בכלל לא">
-                        בכלל לא
+                        <input type="radio" name="q17" value="אני נמנע בגלל חשש לעימות">
+                        אני נמנע בגלל חשש לעימות
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q17" value="אחר" id="q17_other_radio">
+                        אחר
                     </label>
                 </div>
+                <input type="text" class="other-input" id="q17_other" placeholder="פרט...">
             </div>
 
             <!-- שאלה 18 -->
             <div class="question-group">
                 <label class="question-label">
                     <span class="question-number">18.</span>
-                    עד כמה אתה מרגיש שיש כנות ופתיחות בין חברי ההנהלה בנוגע להתנהגויות בעייתיות?
+                    האם אתה מרגיש שיש בטכנודע לגיטימציה לקיים "שיחות אמיצות" בין מנהלים?
                 </label>
                 <div class="radio-group">
                     <label class="radio-option">
-                        <input type="radio" name="q18" value="גבוהה מאוד" required>
-                        גבוהה מאוד
+                        <input type="radio" name="q18" value="כן, מאוד" required>
+                        כן, מאוד
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="q18" value="גבוהה">
-                        גבוהה
+                        <input type="radio" name="q18" value="כן, מעט">
+                        כן, מעט
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="q18" value="בינונית">
-                        בינונית
+                        <input type="radio" name="q18" value="לא מספיק">
+                        לא מספיק
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="q18" value="נמוכה">
-                        נמוכה
-                    </label>
-                    <label class="radio-option">
-                        <input type="radio" name="q18" value="נמוכה מאוד">
-                        נמוכה מאוד
+                        <input type="radio" name="q18" value="בכלל לא">
+                        בכלל לא
                     </label>
                 </div>
             </div>
@@ -792,28 +801,28 @@
             <div class="question-group">
                 <label class="question-label">
                     <span class="question-number">19.</span>
-                    עד כמה אתה מרגיש שהמנהלים שעליהם דיווחת מודעים לפער ההתנהגותי שאתה מתאר?
+                    עד כמה אתה מרגיש שיש כנות ופתיחות בין חברי ההנהלה בנוגע להתנהגויות בעייתיות?
                 </label>
                 <div class="radio-group">
                     <label class="radio-option">
-                        <input type="radio" name="q19" value="מודעים מאוד" required>
-                        מודעים מאוד
+                        <input type="radio" name="q19" value="גבוהה מאוד" required>
+                        גבוהה מאוד
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="q19" value="מודעים חלקית">
-                        מודעים חלקית
+                        <input type="radio" name="q19" value="גבוהה">
+                        גבוהה
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="q19" value="לא מודעים">
-                        לא מודעים
+                        <input type="radio" name="q19" value="בינונית">
+                        בינונית
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="q19" value="מתנגדים למשוב">
-                        מתנגדים למשוב
+                        <input type="radio" name="q19" value="נמוכה">
+                        נמוכה
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="q19" value="איני יודע">
-                        איני יודע
+                        <input type="radio" name="q19" value="נמוכה מאוד">
+                        נמוכה מאוד
                     </label>
                 </div>
             </div>
@@ -822,39 +831,30 @@
             <div class="question-group">
                 <label class="question-label">
                     <span class="question-number">20.</span>
-                    מה לדעתך שורש ההתנהגות (דחיינות / התקרבנות / תגובה שלילית)? (ניתן לבחור יותר מתשובה אחת)
+                    עד כמה אתה מרגיש שהמנהלים שעליהם דיווחת מודעים לפער ההתנהגותי שאתה מתאר?
                 </label>
-                <div class="checkbox-group">
-                    <label class="checkbox-option">
-                        <input type="checkbox" name="q20" value="עומס אמיתי">
-                        עומס אמיתי
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q20" value="מודעים מאוד" required>
+                        מודעים מאוד
                     </label>
-                    <label class="checkbox-option">
-                        <input type="checkbox" name="q20" value="חוסר מיומנות ניהולית">
-                        חוסר מיומנות ניהולית
+                    <label class="radio-option">
+                        <input type="radio" name="q20" value="מודעים חלקית">
+                        מודעים חלקית
                     </label>
-                    <label class="checkbox-option">
-                        <input type="checkbox" name="q20" value="חוסר ביטחון בתפקיד">
-                        חוסר ביטחון בתפקיד
+                    <label class="radio-option">
+                        <input type="radio" name="q20" value="לא מודעים">
+                        לא מודעים
                     </label>
-                    <label class="checkbox-option">
-                        <input type="checkbox" name="q20" value="פחד מקבלת החלטות">
-                        פחד מקבלת החלטות
+                    <label class="radio-option">
+                        <input type="radio" name="q20" value="מתנגדים למשוב">
+                        מתנגדים למשוב
                     </label>
-                    <label class="checkbox-option">
-                        <input type="checkbox" name="q20" value="חוסר רצון לקחת אחריות">
-                        חוסר רצון לקחת אחריות
-                    </label>
-                    <label class="checkbox-option">
-                        <input type="checkbox" name="q20" value="היעדר משוב בעבר">
-                        היעדר משוב בעבר
-                    </label>
-                    <label class="checkbox-option">
-                        <input type="checkbox" name="q20" value="אחר" id="q20_other_check">
-                        אחר
+                    <label class="radio-option">
+                        <input type="radio" name="q20" value="איני יודע">
+                        איני יודע
                     </label>
                 </div>
-                <input type="text" class="other-input" id="q20_other" placeholder="פרט...">
             </div>
 
             <!-- שאלה 21 -->
@@ -1019,28 +1019,28 @@
             });
         });
 
-        document.getElementById('q16_other_radio').addEventListener('change', function() {
+        document.getElementById('q13_other_check').addEventListener('change', function() {
             if (this.checked) {
-                document.getElementById('q16_other').classList.add('show');
+                document.getElementById('q13_other').classList.add('show');
+            } else {
+                document.getElementById('q13_other').classList.remove('show');
+                document.getElementById('q13_other').value = '';
             }
         });
 
-        document.querySelectorAll('input[name="q16"]').forEach(radio => {
+        document.getElementById('q17_other_radio').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('q17_other').classList.add('show');
+            }
+        });
+
+        document.querySelectorAll('input[name="q17"]').forEach(radio => {
             radio.addEventListener('change', function() {
                 if (this.value !== 'אחר') {
-                    document.getElementById('q16_other').classList.remove('show');
-                    document.getElementById('q16_other').value = '';
+                    document.getElementById('q17_other').classList.remove('show');
+                    document.getElementById('q17_other').value = '';
                 }
             });
-        });
-
-        document.getElementById('q20_other_check').addEventListener('change', function() {
-            if (this.checked) {
-                document.getElementById('q20_other').classList.add('show');
-            } else {
-                document.getElementById('q20_other').classList.remove('show');
-                document.getElementById('q20_other').value = '';
-            }
         });
 
         // Form submission
@@ -1063,16 +1063,16 @@
                 q10: formData.get('q10') || 'לא רלוונטי',
                 q11: formData.get('q11') || 'לא רלוונטי',
                 q12: formData.get('q12'),
-                q13: formData.get('q13'),
-                q14: formData.get('q14') || '',
+                q13: formData.getAll('q13').includes('אחר') ?
+                    [...formData.getAll('q13').filter(v => v !== 'אחר'), document.getElementById('q13_other').value] :
+                    formData.getAll('q13'),
+                q14: formData.get('q14'),
                 q15: formData.get('q15'),
-                q16: formData.get('q16') === 'אחר' ? document.getElementById('q16_other').value : formData.get('q16'),
-                q17: formData.get('q17'),
+                q16: formData.get('q16') || '',
+                q17: formData.get('q17') === 'אחר' ? document.getElementById('q17_other').value : formData.get('q17'),
                 q18: formData.get('q18'),
                 q19: formData.get('q19'),
-                q20: formData.getAll('q20').includes('אחר') ?
-                    [...formData.getAll('q20').filter(v => v !== 'אחר'), document.getElementById('q20_other').value] :
-                    formData.getAll('q20'),
+                q20: formData.get('q20'),
                 q21: formData.get('q21'),
                 q22: formData.get('q22') || ''
             };
