@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תוצאות המשוב - סדנת מנהלים</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2d5f4f 0%, #4a8f7a 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: #1f4038;
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            color: #1f4038;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        .stat-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #4a8f7a;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .chart-container {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .chart-container h2 {
+            color: #1f4038;
+            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            border-right: 4px solid #4a8f7a;
+            padding-right: 15px;
+        }
+
+        .chart-container .question-subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+            padding-right: 19px;
+            line-height: 1.5;
+        }
+
+        .text-responses {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .text-responses h2 {
+            color: #1a2d4f;
+            margin-bottom: 20px;
+            font-size: 22px;
+            border-right: 4px solid #2a5298;
+            padding-right: 15px;
+        }
+
+        .response-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-right: 3px solid #2a5298;
+        }
+
+        .response-item .timestamp {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .response-item .content {
+            color: #333;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: white;
+            font-size: 24px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 50px;
+            background: white;
+            border-radius: 12px;
+            color: #666;
+            font-size: 18px;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #2a5298 0%, #1e3c72 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(42, 82, 152, 0.4);
+            transition: all 0.3s;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(42, 82, 152, 0.5);
+        }
+
+        .export-btn {
+            background: #4caf50;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s;
+        }
+
+        .export-btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .header {
+                padding: 20px 15px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .header p {
+                font-size: 14px;
+            }
+
+            .refresh-btn {
+                padding: 12px 30px;
+                font-size: 15px;
+                margin: 15px auto;
+            }
+
+            .export-btn {
+                padding: 10px 25px;
+                font-size: 13px;
+                margin: 8px;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+
+            .stat-card {
+                padding: 18px 15px;
+            }
+
+            .stat-card h3 {
+                font-size: 15px;
+                margin-bottom: 12px;
+            }
+
+            .stat-number {
+                font-size: 36px;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .chart-container {
+                padding: 20px 15px;
+            }
+
+            .chart-container h2 {
+                font-size: 16px;
+                padding-right: 12px;
+            }
+
+            .chart-container .question-subtitle {
+                font-size: 13px;
+                padding-right: 16px;
+                margin-bottom: 15px;
+            }
+
+            .text-responses {
+                padding: 20px 15px;
+            }
+
+            .text-responses h2 {
+                font-size: 18px;
+                padding-right: 12px;
+            }
+
+            .response-item {
+                padding: 12px;
+            }
+
+            .response-item .timestamp {
+                font-size: 11px;
+            }
+
+            .response-item .content {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .header p {
+                font-size: 13px;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .stat-card {
+                padding: 15px 12px;
+            }
+
+            .stat-card h3 {
+                font-size: 14px;
+            }
+
+            .stat-number {
+                font-size: 32px;
+            }
+
+            .chart-container h2 {
+                font-size: 15px;
+            }
+
+            .chart-container .question-subtitle {
+                font-size: 12px;
+            }
+
+            .refresh-btn {
+                width: 100%;
+                padding: 14px 20px;
+            }
+
+            .export-btn {
+                width: calc(100% - 20px);
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>תוצאות שאלון משוב - סדנת מנהלים</h1>
+            <p>ניתוח ויזואלי של התגובות שהתקבלו</p>
+            <button class="refresh-btn" onclick="location.reload()">רענן נתונים</button>
+            <button class="export-btn" onclick="exportToCSV()">ייצא ל-CSV</button>
+        </div>
+
+        <div id="loading" class="loading">טוען נתונים...</div>
+        <div id="content" style="display: none;">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>סך כל התגובות</h3>
+                    <div class="stat-number" id="totalResponses">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>ממוצע שאלה 1</h3>
+                    <div class="stat-number" id="avgQ1">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>ממוצע שאלה 2</h3>
+                    <div class="stat-number" id="avgQ2">0</div>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h2>שאלה 1</h2>
+                    <div class="question-subtitle">באיזו מידה הסדנה האחרונה העניקה לך כלים מעשיים למתן משוב בונה ומקדם לקולגות?</div>
+                    <canvas id="q1Chart"></canvas>
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #e0e0e0;">
+                        <h3 style="color: #1f4038; font-size: 16px; margin-bottom: 15px;">תשובות קצרות:</h3>
+                        <div id="q1TextResponses"></div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h2>שאלה 2</h2>
+                    <div class="question-subtitle">עד כמה חווית השיח הפתוח בסדנה אפשרה לך לשתף ולקבל תובנות לגבי אתגרים יום-יומיים בעבודה?</div>
+                    <canvas id="q2Chart"></canvas>
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #e0e0e0;">
+                        <h3 style="color: #1f4038; font-size: 16px; margin-bottom: 15px;">תשובות קצרות:</h3>
+                        <div id="q2TextResponses"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h2>שאלה 3</h2>
+                    <div class="question-subtitle">האם תרגול מתן המשוב בזוגות שיפר את יכולתך/נכונותך לתת משוב בונה לקולגה בהקשרים מורכבים?</div>
+                    <canvas id="q3Chart"></canvas>
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 2px solid #e0e0e0;">
+                        <h3 style="color: #1f4038; font-size: 16px; margin-bottom: 15px;">פרט בקצרה:</h3>
+                        <div id="q3TextResponses"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-responses">
+                <h2>שאלה 4: באיזה תחומים או פרויקטים מרכזיים אתה מזהה אתגרים של עיכובים משמעותיים בהשלמת משימות או קבלת החלטות?</h2>
+                <div id="q4Responses"></div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h2>שאלה 5</h2>
+                    <div class="question-subtitle">נא ציין אם אתה מזהה קולגה ספציפי שיכול ליהנות מכלי ניהול זמן מתקדמים יותר</div>
+                    <canvas id="q5Chart"></canvas>
+                </div>
+            </div>
+
+            <div class="text-responses">
+                <h2>שאלה 6: האם אתה מזהה מקרים בהם קולגות מתקשים לקבל אחריות על טעויות או אתגרים, מה שמעכב את פתרון הבעיה? אם כן, אנא תאר דוגמה והצע דרך בה ההנהלה יכולה לתמוך בהם בקבלת אחריות.</h2>
+                <div id="q6Responses"></div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h2>שאלה 7</h2>
+                    <div class="question-subtitle">אנא ציין אם אתה מזהה קולגות שיכולים להפיק תועלת מעזרה בניהול התנהלות קורבנית</div>
+                    <canvas id="q7Chart"></canvas>
+                </div>
+            </div>
+
+            <div class="text-responses">
+                <h2>שאלה 8: באיזה הקשרים אתה חש בחסר משמעותי של יוזמה או פרואקטיביות בהובלת פרויקטים או פתרון בעיות בקרב מנהלים בטכנודע? אנא תן דוגמה ופרט האם וכיצד הדבר משפיע על עבודתך.</h2>
+                <div id="q8Responses"></div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-container">
+                    <h2>שאלה 9</h2>
+                    <div class="question-subtitle">אנא בחר שמות של קולגות שלדעתך זקוקים לחיזוק היכולת ליטול יוזמה ולהוביל שינויים</div>
+                    <canvas id="q9Chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQ82MgwWCmMaEQQbyCKc_O2sA4i3tJ8ZI",
+            authDomain: "forme-a3c26.firebaseapp.com",
+            databaseURL: "https://forme-a3c26-default-rtdb.firebaseio.com",
+            projectId: "forme-a3c26",
+            storageBucket: "forme-a3c26.firebasestorage.app",
+            messagingSenderId: "1026375487564",
+            appId: "1:1026375487564:web:6a275bacad937a283ba4e9"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        let allResponses = [];
+
+        // Color schemes - positive = green, negative = red, neutral = blue
+        const colorSchemes = {
+            positive: ['#4caf50', '#66bb6a', '#81c784', '#a5d6a7', '#c8e6c9', '#e8f5e9'],
+            negative: ['#ef5350', '#e57373', '#ef9a9a', '#ffcdd2', '#ffebee', '#f44336'],
+            neutral: ['#2a5298', '#4a7bc8', '#6b9bd8', '#8bb3e8', '#abc4f0', '#1e3c72'],
+            mixed: ['#4caf50', '#ef5350', '#2a5298', '#ff9800', '#9c27b0', '#00bcd4']
+        };
+
+        onValue(ref(database, 'new_survey_response'), (snapshot) => {
+            const data = snapshot.val();
+
+            if (!data) {
+                document.getElementById('loading').innerHTML = '<div class="no-data">אין תגובות עדיין</div>';
+                return;
+            }
+
+            allResponses = Object.values(data);
+
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+
+            renderStats();
+            renderCharts();
+            renderTextResponses();
+        });
+
+        function renderStats() {
+            const total = allResponses.length;
+            document.getElementById('totalResponses').textContent = total;
+
+            const q1Values = allResponses.map(r => parseInt(r.q1)).filter(v => !isNaN(v));
+            const avgQ1 = q1Values.length > 0 ?
+                (q1Values.reduce((a, b) => a + b, 0) / q1Values.length).toFixed(1) : 0;
+            document.getElementById('avgQ1').textContent = avgQ1;
+
+            const q2Values = allResponses.map(r => parseInt(r.q2)).filter(v => !isNaN(v));
+            const avgQ2 = q2Values.length > 0 ?
+                (q2Values.reduce((a, b) => a + b, 0) / q2Values.length).toFixed(1) : 0;
+            document.getElementById('avgQ2').textContent = avgQ2;
+        }
+
+        function countValues(responses, field) {
+            const counts = {};
+            responses.forEach(r => {
+                const value = r[field];
+                if (value && value !== 'לא רלוונטי') {
+                    if (Array.isArray(value)) {
+                        value.forEach(v => {
+                            // ספירה ישירה בלי נורמליזציה - נשתמש בערך המקורי
+                            counts[v] = (counts[v] || 0) + 1;
+                        });
+                    } else {
+                        counts[value] = (counts[value] || 0) + 1;
+                    }
+                }
+            });
+
+            // הדפס את כל הערכים לקונסול לבדיקה
+            if (field === 'q5' || field === 'q7' || field === 'q9') {
+                console.log(`Values for ${field}:`, Object.keys(counts));
+            }
+
+            return counts;
+        }
+
+        // פונקציה להמרת ערכי שאלות 1 ו-2 לתיאורים
+        function convertScaleLabels(counts) {
+            const labelMap = {
+                '1': '1 - כלל לא',
+                '2': '2 - במידה מועטה',
+                '3': '3 - במידה בינונית',
+                '4': '4 - במידה רבה',
+                '5': '5 - במידה רבה מאוד'
+            };
+
+            // צור אובייקט חדש בסדר הנכון (1,2,3,4,5)
+            const newCounts = {};
+            ['1', '2', '3', '4', '5'].forEach(key => {
+                if (counts[key]) {
+                    const newKey = labelMap[key];
+                    newCounts[newKey] = counts[key];
+                }
+            });
+            return newCounts;
+        }
+
+        function getColorsForQuestion(questionNum, labels) {
+            // Q1 & Q2 - higher is better (positive)
+            if ([1, 2].includes(questionNum)) {
+                return labels.map(l => {
+                    // חלץ את המספר מהתיאור (למשל "4 - במידה רבה" -> 4)
+                    const val = parseInt(l.split(' ')[0]) || parseInt(l);
+                    if (val >= 4) return colorSchemes.positive[0];
+                    if (val === 3) return colorSchemes.neutral[0];
+                    return colorSchemes.negative[0];
+                });
+            }
+
+            // Q3 - כן/לא/אולי
+            if (questionNum === 3) {
+                const colorMap = {
+                    'כן': colorSchemes.positive[0],
+                    'לא': colorSchemes.negative[0],
+                    'אולי': colorSchemes.neutral[0]
+                };
+                return labels.map(l => colorMap[l] || colorSchemes.neutral[0]);
+            }
+
+            // Q5, Q7, Q9 - checkboxes (names) - use mixed colors
+            if ([5, 7, 9].includes(questionNum)) {
+                return colorSchemes.mixed;
+            }
+
+            // Default - use varied colors
+            return colorSchemes.mixed;
+        }
+
+        function createChart(canvasId, questionNum, label, counts, type = 'bar') {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            const labels = Object.keys(counts);
+            const data = Object.values(counts);
+
+            // תמיד קבל צבעים לפי מספר השאלה - גם לעמודות וגם ל-doughnut
+            const colors = getColorsForQuestion(questionNum, labels);
+
+            // הגדר גובה מקסימלי לכל הגרפים
+            document.getElementById(canvasId).style.maxHeight = type === 'doughnut' ? '280px' : '350px';
+
+            new Chart(ctx, {
+                type: type,
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: label,
+                        data: data,
+                        backgroundColor: colors,
+                        borderColor: type === 'bar' ? '#1e3c72' : 'white',
+                        borderWidth: type === 'bar' ? 1 : 2,
+                        barThickness: type === 'bar' ? 35 : undefined,
+                        maxBarThickness: type === 'bar' ? 45 : undefined
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    aspectRatio: type === 'doughnut' ? 2.2 : 1.8,
+                    plugins: {
+                        legend: {
+                            display: type === 'pie' || type === 'doughnut',
+                            position: 'bottom',
+                            rtl: true,
+                            labels: {
+                                font: {
+                                    size: 15,
+                                    family: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+                                    weight: '500'
+                                },
+                                padding: 18,
+                                boxWidth: 30,
+                                boxHeight: 15
+                            }
+                        },
+                        tooltip: {
+                            titleFont: {
+                                size: 15
+                            },
+                            bodyFont: {
+                                size: 14
+                            },
+                            padding: 12
+                        }
+                    },
+                    scales: type === 'bar' ? {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                stepSize: 1,
+                                font: {
+                                    size: 14,
+                                    weight: '500'
+                                }
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                font: {
+                                    size: 13,
+                                    weight: '500'
+                                },
+                                maxRotation: 45,
+                                minRotation: 0
+                            }
+                        }
+                    } : {}
+                }
+            });
+        }
+
+        function renderCharts() {
+            const q1Counts = convertScaleLabels(countValues(allResponses, 'q1'));
+            createChart('q1Chart', 1, 'תגובות', q1Counts, 'bar');
+
+            const q2Counts = convertScaleLabels(countValues(allResponses, 'q2'));
+            createChart('q2Chart', 2, 'תגובות', q2Counts, 'bar');
+
+            const q3Counts = countValues(allResponses, 'q3');
+            createChart('q3Chart', 3, 'תגובות', q3Counts, 'doughnut');
+
+            const q5Counts = countValues(allResponses, 'q5');
+            createChart('q5Chart', 5, 'תגובות', q5Counts, 'bar');
+
+            const q7Counts = countValues(allResponses, 'q7');
+            createChart('q7Chart', 7, 'תגובות', q7Counts, 'bar');
+
+            const q9Counts = countValues(allResponses, 'q9');
+            createChart('q9Chart', 9, 'תגובות', q9Counts, 'bar');
+        }
+
+        function renderTextResponses() {
+            // Q1 text responses
+            const q1TextContainer = document.getElementById('q1TextResponses');
+            const q1TextResponses = allResponses.filter(r => r.q1_text && r.q1_text.trim() !== '');
+            if (q1TextResponses.length === 0) {
+                q1TextContainer.innerHTML = '<div class="no-data">אין תגובות טקסט</div>';
+            } else {
+                q1TextContainer.innerHTML = q1TextResponses.map(r => `
+                    <div class="response-item">
+                        <div class="timestamp">${new Date(r.timestamp).toLocaleString('he-IL')}</div>
+                        <div class="content">${r.q1_text}</div>
+                    </div>
+                `).join('');
+            }
+
+            // Q2 text responses
+            const q2TextContainer = document.getElementById('q2TextResponses');
+            const q2TextResponses = allResponses.filter(r => r.q2_text && r.q2_text.trim() !== '');
+            if (q2TextResponses.length === 0) {
+                q2TextContainer.innerHTML = '<div class="no-data">אין תגובות טקסט</div>';
+            } else {
+                q2TextContainer.innerHTML = q2TextResponses.map(r => `
+                    <div class="response-item">
+                        <div class="timestamp">${new Date(r.timestamp).toLocaleString('he-IL')}</div>
+                        <div class="content">${r.q2_text}</div>
+                    </div>
+                `).join('');
+            }
+
+            // Q3 text responses
+            const q3TextContainer = document.getElementById('q3TextResponses');
+            const q3TextResponses = allResponses.filter(r => r.q3_text && r.q3_text.trim() !== '');
+            if (q3TextResponses.length === 0) {
+                q3TextContainer.innerHTML = '<div class="no-data">אין תגובות טקסט</div>';
+            } else {
+                q3TextContainer.innerHTML = q3TextResponses.map(r => `
+                    <div class="response-item">
+                        <div class="timestamp">${new Date(r.timestamp).toLocaleString('he-IL')}</div>
+                        <div class="content">${r.q3_text}</div>
+                    </div>
+                `).join('');
+            }
+
+            // Q4 responses
+            const q4Container = document.getElementById('q4Responses');
+            const q4Responses = allResponses.filter(r => r.q4 && r.q4.trim() !== '');
+            if (q4Responses.length === 0) {
+                q4Container.innerHTML = '<div class="no-data">אין תגובות טקסט</div>';
+            } else {
+                q4Container.innerHTML = q4Responses.map(r => `
+                    <div class="response-item">
+                        <div class="timestamp">${new Date(r.timestamp).toLocaleString('he-IL')}</div>
+                        <div class="content">${r.q4}</div>
+                    </div>
+                `).join('');
+            }
+
+            // Q6 responses
+            const q6Container = document.getElementById('q6Responses');
+            const q6Responses = allResponses.filter(r => r.q6 && r.q6.trim() !== '');
+            if (q6Responses.length === 0) {
+                q6Container.innerHTML = '<div class="no-data">אין תגובות טקסט</div>';
+            } else {
+                q6Container.innerHTML = q6Responses.map(r => `
+                    <div class="response-item">
+                        <div class="timestamp">${new Date(r.timestamp).toLocaleString('he-IL')}</div>
+                        <div class="content">${r.q6}</div>
+                    </div>
+                `).join('');
+            }
+
+            // Q8 responses
+            const q8Container = document.getElementById('q8Responses');
+            const q8Responses = allResponses.filter(r => r.q8 && r.q8.trim() !== '');
+            if (q8Responses.length === 0) {
+                q8Container.innerHTML = '<div class="no-data">אין תגובות טקסט</div>';
+            } else {
+                q8Container.innerHTML = q8Responses.map(r => `
+                    <div class="response-item">
+                        <div class="timestamp">${new Date(r.timestamp).toLocaleString('he-IL')}</div>
+                        <div class="content">${r.q8}</div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        window.exportToCSV = function() {
+            if (allResponses.length === 0) {
+                alert('אין נתונים לייצוא');
+                return;
+            }
+
+            const headers = [
+                'תאריך ושעה',
+                'שאלה 1 - כלים מעשיים למתן משוב',
+                'שאלה 1 - טקסט',
+                'שאלה 2 - ליישום בפועל',
+                'שאלה 2 - טקסט',
+                'שאלה 3 - להמשיך עם יהודה',
+                'שאלה 3 - הסבר',
+                'שאלה 4 - נושא להעמקה',
+                'שאלה 5 - ניהול זמן (שמות)',
+                'שאלה 6 - קבלת אחריות',
+                'שאלה 7 - התנהלות קורבנית (שמות)',
+                'שאלה 8 - פרואקטיביות',
+                'שאלה 9 - יוזמה והובלת שינויים (שמות)'
+            ];
+
+            const csvRows = [headers.join(',')];
+
+            allResponses.forEach(r => {
+                const row = [
+                    new Date(r.timestamp).toLocaleString('he-IL'),
+                    r.q1,
+                    `"${(r.q1_text || '').replace(/"/g, '""')}"`,
+                    r.q2,
+                    `"${(r.q2_text || '').replace(/"/g, '""')}"`,
+                    r.q3,
+                    `"${(r.q3_text || '').replace(/"/g, '""')}"`,
+                    `"${(r.q4 || '').replace(/"/g, '""')}"`,
+                    Array.isArray(r.q5) ? `"${r.q5.join(', ')}"` : r.q5,
+                    `"${(r.q6 || '').replace(/"/g, '""')}"`,
+                    Array.isArray(r.q7) ? `"${r.q7.join(', ')}"` : r.q7,
+                    `"${(r.q8 || '').replace(/"/g, '""')}"`,
+                    Array.isArray(r.q9) ? `"${r.q9.join(', ')}"` : r.q9
+                ];
+                csvRows.push(row.join(','));
+            });
+
+            const csvContent = '\ufeff' + csvRows.join('\n');
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `survey_results_${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+        };
+    </script>
+</body>
+</html>
