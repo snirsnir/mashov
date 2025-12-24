@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>שאלון משוב - סדנת מנהלים</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2d5f4f 0%, #4a8f7a 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: #1f4038;
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .header p {
+            line-height: 1.8;
+            opacity: 0.95;
+            font-size: 16px;
+        }
+
+        .form-content {
+            padding: 40px 30px;
+        }
+
+        .section-header {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1a2d4f;
+            margin: 30px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #2a5298;
+        }
+
+        .question-group {
+            margin-bottom: 35px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-right: 4px solid #2a5298;
+        }
+
+        .question-label {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a2d4f;
+            margin-bottom: 15px;
+            display: block;
+            line-height: 1.6;
+        }
+
+        .question-number {
+            color: #2a5298;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+
+        .scale-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .scale-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .scale-option input[type="radio"] {
+            width: 24px;
+            height: 24px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+
+        .scale-option label {
+            font-size: 14px;
+            color: #555;
+            text-align: center;
+        }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .radio-option:hover {
+            border-color: #4a8f7a;
+            background: #f0f7f5;
+        }
+
+        .radio-option input[type="radio"] {
+            margin-left: 12px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 100px;
+            transition: border-color 0.3s;
+            margin-top: 10px;
+        }
+
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #4a8f7a;
+        }
+
+        .optional-label {
+            font-size: 14px;
+            color: #666;
+            font-weight: normal;
+            margin-right: 5px;
+        }
+
+        select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            background: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #4a8f7a;
+        }
+
+        select[multiple] {
+            min-height: 200px;
+        }
+
+        .select-help {
+            font-size: 13px;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .checkbox-option:hover {
+            border-color: #4a8f7a;
+            background: #f0f7f5;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            margin-left: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .checkbox-option label {
+            cursor: pointer;
+            flex: 1;
+            font-size: 15px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #4a8f7a 0%, #2d5f4f 100%);
+            color: white;
+            padding: 18px 50px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            display: block;
+            margin: 40px auto 0;
+            box-shadow: 0 5px 20px rgba(74, 143, 122, 0.4);
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(74, 143, 122, 0.5);
+        }
+
+        .submit-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .success-message {
+            display: none;
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            padding: 80px 40px;
+            border-radius: 15px;
+            text-align: center;
+            font-size: 48px;
+            font-weight: bold;
+            margin: 100px auto;
+            box-shadow: 0 10px 40px rgba(76, 175, 80, 0.3);
+            max-width: 800px;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .container {
+                border-radius: 10px;
+            }
+
+            .header {
+                padding: 25px 20px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+                margin-bottom: 15px;
+            }
+
+            .header p {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            .form-content {
+                padding: 20px 15px;
+            }
+
+            .section-header {
+                font-size: 20px;
+            }
+
+            .question-group {
+                padding: 18px 15px;
+                margin-bottom: 25px;
+            }
+
+            .question-label {
+                font-size: 16px;
+                margin-bottom: 12px;
+            }
+
+            .scale-group {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .scale-option {
+                width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 12px 15px;
+                border: 2px solid #e0e0e0;
+                border-radius: 8px;
+                margin-bottom: 0;
+                background: white;
+            }
+
+            .scale-option input[type="radio"] {
+                margin-bottom: 0;
+                margin-left: 10px;
+                width: 22px;
+                height: 22px;
+            }
+
+            .scale-option label {
+                font-size: 15px;
+            }
+
+            .scale-labels {
+                flex-direction: column;
+                gap: 5px;
+                text-align: center;
+                font-size: 13px;
+            }
+
+            textarea, input[type="text"] {
+                padding: 12px;
+                font-size: 15px;
+                min-height: 80px;
+            }
+
+            .submit-btn {
+                width: 100%;
+                padding: 16px 30px;
+                font-size: 17px;
+                margin: 30px auto 0;
+            }
+
+            .success-message {
+                font-size: 36px;
+                padding: 60px 30px;
+                margin: 50px auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 5px;
+            }
+
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .header p {
+                font-size: 13px;
+            }
+
+            .question-label {
+                font-size: 15px;
+            }
+
+            .success-message {
+                font-size: 28px;
+                padding: 40px 20px;
+                margin: 30px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>שאלון משוב - סדנת מנהלים</h1>
+            <p>
+                צוות יקר,<br>
+                בהמשך לשתי הסדנאות שעברנו עם יהודה בידרמן, היועץ הארגוני של הטכנודע, אנו מעבירים שאלון נוסף בו נשמח לשמוע את דעתכם לצורך דיוק תהליכי ההמשך.
+                <br><br>
+                <strong>שימו לב, גם שאלון זה הינו אנונימי.</strong>
+                <br><br>
+                תודה על הכנות ושיתוף הפעולה,<br>
+                הצוות המארגן.
+            </p>
+        </div>
+
+        <form id="surveyForm" class="form-content">
+            <div class="section-header">חלק א</div>
+
+            <!-- שאלה 1 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">1.</span>
+                    באיזו מידה הסדנה האחרונה העניקה לך כלים מעשיים למתן משוב בונה ומקדם לקולגות?
+                </label>
+                <div class="scale-group">
+                    <div class="scale-option">
+                        <input type="radio" name="q1" value="1" id="q1_1" required>
+                        <label for="q1_1">1</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" name="q1" value="2" id="q1_2">
+                        <label for="q1_2">2</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" name="q1" value="3" id="q1_3">
+                        <label for="q1_3">3</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" name="q1" value="4" id="q1_4">
+                        <label for="q1_4">4</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" name="q1" value="5" id="q1_5">
+                        <label for="q1_5">5</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span>כלל לא</span>
+                    <span>במידה רבה מאוד</span>
+                </div>
+                <textarea name="q1_text" placeholder="תשובה קצרה (אופציונלי)"></textarea>
+            </div>
+
+            <!-- שאלה 2 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">2.</span>
+                    עד כמה חווית השיח הפתוח בסדנה אפשרה לך לשתף ולקבל תובנות לגבי אתגרים יום-יומיים בעבודה?
+                </label>
+                <div class="scale-group">
+                    <div class="scale-option">
+                        <input type="radio" name="q2" value="1" id="q2_1" required>
+                        <label for="q2_1">1</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" name="q2" value="2" id="q2_2">
+                        <label for="q2_2">2</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" name="q2" value="3" id="q2_3">
+                        <label for="q2_3">3</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" name="q2" value="4" id="q2_4">
+                        <label for="q2_4">4</label>
+                    </div>
+                    <div class="scale-option">
+                        <input type="radio" name="q2" value="5" id="q2_5">
+                        <label for="q2_5">5</label>
+                    </div>
+                </div>
+                <div class="scale-labels">
+                    <span>כלל לא</span>
+                    <span>במידה רבה מאוד</span>
+                </div>
+                <textarea name="q2_text" placeholder="תשובה קצרה (אופציונלי)"></textarea>
+            </div>
+
+            <!-- שאלה 3 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">3.</span>
+                    האם תרגול מתן המשוב בזוגות שיפר את יכולתך/נכונותך לתת משוב בונה לקולגה בהקשרים מורכבים?
+                </label>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="q3" value="כן" required>
+                        כן
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q3" value="לא">
+                        לא
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="q3" value="אולי">
+                        אולי
+                    </label>
+                </div>
+                <textarea name="q3_text" placeholder="אנא פרט בקצרה" required></textarea>
+            </div>
+
+            <div class="section-header">חלק ב</div>
+
+            <!-- שאלה 4 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">4.</span>
+                    באיזה תחומים או פרויקטים מרכזיים אתה מזהה אתגרים של עיכובים משמעותיים בהשלמת משימות או קבלת החלטות?
+                </label>
+                <textarea name="q4" placeholder="תשובה קצרה" required></textarea>
+            </div>
+
+            <!-- שאלה 5 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">5.</span>
+                    נא ציין אם אתה מזהה קולגה ספציפי שיכול ליהנות מכלי ניהול זמן מתקדמים יותר.
+                </label>
+                <div class="checkbox-group">
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="אוסנת צפון" id="q5_1">
+                        <label for="q5_1">אוסנת צפון</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="דינה כחלון בש" id="q5_2">
+                        <label for="q5_2">דינה כחלון בש</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="שולי ששון" id="q5_3">
+                        <label for="q5_3">שולי ששון</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="קרן ביילי דהן" id="q5_4">
+                        <label for="q5_4">קרן ביילי דהן</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="אמילי גולן כץ" id="q5_5">
+                        <label for="q5_5">אמילי גולן כץ</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="מידן קדוש" id="q5_6">
+                        <label for="q5_6">מידן קדוש</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="ספיר מלמד" id="q5_7">
+                        <label for="q5_7">ספיר מלמד</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="לירון אהרן" id="q5_8">
+                        <label for="q5_8">לירון אהרן</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="אלי זריהן" id="q5_9">
+                        <label for="q5_9">אלי זריהן</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="בני קציר" id="q5_10">
+                        <label for="q5_10">בני קציר</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="שניר דואני" id="q5_11">
+                        <label for="q5_11">שניר דואני</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="ג'אדה חכמון באום" id="q5_12">
+                        <label for="q5_12">ג'אדה חכמון באום</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="דר מעיין שוורצר" id="q5_13">
+                        <label for="q5_13">דר מעיין שוורצר</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="דר גדי מדור" id="q5_14">
+                        <label for="q5_14">דר גדי מדור</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="מרי דהן" id="q5_15">
+                        <label for="q5_15">מרי דהן</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="יעלה חדד" id="q5_16">
+                        <label for="q5_16">יעלה חדד</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="מור וייס" id="q5_17">
+                        <label for="q5_17">מור וייס</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="דוד אוחיון" id="q5_18">
+                        <label for="q5_18">דוד אוחיון</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="עזריאל שניידר" id="q5_19">
+                        <label for="q5_19">עזריאל שניידר</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="נאווה סבוראי" id="q5_20">
+                        <label for="q5_20">נאווה סבוראי</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="איציק חיים" id="q5_21">
+                        <label for="q5_21">איציק חיים</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q5" value="ליבי בן דוד" id="q5_22">
+                        <label for="q5_22">ליבי בן דוד</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- שאלה 6 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">6.</span>
+                    האם אתה מזהה מקרים בהם קולגות מתקשים לקבל אחריות על טעויות או אתגרים, מה שמעכב את פתרון הבעיה? אם כן, אנא תאר דוגמה והצע דרך בה ההנהלה יכולה לתמוך בהם בקבלת אחריות.
+                </label>
+                <textarea name="q6" placeholder="תשובה קצרה" required></textarea>
+            </div>
+
+            <!-- שאלה 7 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">7.</span>
+                    אנא ציין אם אתה מזהה קולגות שיכולים להפיק תועלת מעזרה בניהול התנהלות קורבנית.
+                </label>
+                <div class="checkbox-group">
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="אוסנת צפון" id="q7_1">
+                        <label for="q7_1">אוסנת צפון</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="דינה כחלון בש" id="q7_2">
+                        <label for="q7_2">דינה כחלון בש</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="שולי ששון" id="q7_3">
+                        <label for="q7_3">שולי ששון</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="קרן ביילי דהן" id="q7_4">
+                        <label for="q7_4">קרן ביילי דהן</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="אמילי גולן כץ" id="q7_5">
+                        <label for="q7_5">אמילי גולן כץ</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="מידן קדוש" id="q7_6">
+                        <label for="q7_6">מידן קדוש</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="ספיר מלמד" id="q7_7">
+                        <label for="q7_7">ספיר מלמד</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="לירון אהרן" id="q7_8">
+                        <label for="q7_8">לירון אהרן</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="אלי זריהן" id="q7_9">
+                        <label for="q7_9">אלי זריהן</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="בני קציר" id="q7_10">
+                        <label for="q7_10">בני קציר</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="שניר דואני" id="q7_11">
+                        <label for="q7_11">שניר דואני</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="ג'אדה חכמון באום" id="q7_12">
+                        <label for="q7_12">ג'אדה חכמון באום</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="דר מעיין שוורצר" id="q7_13">
+                        <label for="q7_13">דר מעיין שוורצר</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="דר גדי מדור" id="q7_14">
+                        <label for="q7_14">דר גדי מדור</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="מרי דהן" id="q7_15">
+                        <label for="q7_15">מרי דהן</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="יעלה חדד" id="q7_16">
+                        <label for="q7_16">יעלה חדד</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="מור וייס" id="q7_17">
+                        <label for="q7_17">מור וייס</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="דוד אוחיון" id="q7_18">
+                        <label for="q7_18">דוד אוחיון</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="עזריאל שניידר" id="q7_19">
+                        <label for="q7_19">עזריאל שניידר</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="נאווה סבוראי" id="q7_20">
+                        <label for="q7_20">נאווה סבוראי</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="איציק חיים" id="q7_21">
+                        <label for="q7_21">איציק חיים</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q7" value="ליבי בן דוד" id="q7_22">
+                        <label for="q7_22">ליבי בן דוד</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- שאלה 8 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">8.</span>
+                    באיזה הקשרים אתה חש בחסר משמעותי של יוזמה או פרואקטיביות בהובלת פרויקטים או פתרון בעיות בקרב מנהלים בטכנודע? אנא תן דוגמה ופרט האם וכיצד הדבר משפיע על עבודתך.
+                </label>
+                <textarea name="q8" placeholder="תשובה קצרה" required></textarea>
+            </div>
+
+            <!-- שאלה 9 -->
+            <div class="question-group">
+                <label class="question-label">
+                    <span class="question-number">9.</span>
+                    אנא בחר שמות של קולגות שלדעתך זקוקים לחיזוק היכולת ליטול יוזמה ולהוביל שינויים.
+                </label>
+                <div class="checkbox-group">
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="אוסנת צפון" id="q9_1">
+                        <label for="q9_1">אוסנת צפון</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="דינה כחלון בש" id="q9_2">
+                        <label for="q9_2">דינה כחלון בש</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="שולי ששון" id="q9_3">
+                        <label for="q9_3">שולי ששון</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="קרן ביילי דהן" id="q9_4">
+                        <label for="q9_4">קרן ביילי דהן</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="אמילי גולן כץ" id="q9_5">
+                        <label for="q9_5">אמילי גולן כץ</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="מידן קדוש" id="q9_6">
+                        <label for="q9_6">מידן קדוש</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="ספיר מלמד" id="q9_7">
+                        <label for="q9_7">ספיר מלמד</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="לירון אהרן" id="q9_8">
+                        <label for="q9_8">לירון אהרן</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="אלי זריהן" id="q9_9">
+                        <label for="q9_9">אלי זריהן</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="בני קציר" id="q9_10">
+                        <label for="q9_10">בני קציר</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="שניר דואני" id="q9_11">
+                        <label for="q9_11">שניר דואני</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="ג'אדה חכמון באום" id="q9_12">
+                        <label for="q9_12">ג'אדה חכמון באום</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="דר מעיין שוורצר" id="q9_13">
+                        <label for="q9_13">דר מעיין שוורצר</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="דר גדי מדור" id="q9_14">
+                        <label for="q9_14">דר גדי מדור</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="מרי דהן" id="q9_15">
+                        <label for="q9_15">מרי דהן</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="יעלה חדד" id="q9_16">
+                        <label for="q9_16">יעלה חדד</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="מור וייס" id="q9_17">
+                        <label for="q9_17">מור וייס</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="דוד אוחיון" id="q9_18">
+                        <label for="q9_18">דוד אוחיון</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="עזריאל שניידר" id="q9_19">
+                        <label for="q9_19">עזריאל שניידר</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="נאווה סבוראי" id="q9_20">
+                        <label for="q9_20">נאווה סבוראי</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="איציק חיים" id="q9_21">
+                        <label for="q9_21">איציק חיים</label>
+                    </div>
+                    <div class="checkbox-option">
+                        <input type="checkbox" name="q9" value="ליבי בן דוד" id="q9_22">
+                        <label for="q9_22">ליבי בן דוד</label>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">שלח את השאלון</button>
+        </form>
+
+        <div class="success-message" id="successMessage">
+            תודה על מילוי השאלון
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+        import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBQ82MgwWCmMaEQQbyCKc_O2sA4i3tJ8ZI",
+            authDomain: "forme-a3c26.firebaseapp.com",
+            databaseURL: "https://forme-a3c26-default-rtdb.firebaseio.com",
+            projectId: "forme-a3c26",
+            storageBucket: "forme-a3c26.firebasestorage.app",
+            messagingSenderId: "1026375487564",
+            appId: "1:1026375487564:web:6a275bacad937a283ba4e9"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+
+        // Form submission
+        const form = document.getElementById('surveyForm');
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+
+            // Validate that at least one checkbox is selected for q5, q7, q9
+            const q5Selected = formData.getAll('q5').length > 0;
+            const q7Selected = formData.getAll('q7').length > 0;
+            const q9Selected = formData.getAll('q9').length > 0;
+
+            if (!q5Selected) {
+                alert('אנא בחר לפחות שם אחד בשאלה 5');
+                return;
+            }
+            if (!q7Selected) {
+                alert('אנא בחר לפחות שם אחד בשאלה 7');
+                return;
+            }
+            if (!q9Selected) {
+                alert('אנא בחר לפחות שם אחד בשאלה 9');
+                return;
+            }
+
+            const answers = {
+                timestamp: new Date().toISOString(),
+                q1: formData.get('q1'),
+                q1_text: formData.get('q1_text') || '',
+                q2: formData.get('q2'),
+                q2_text: formData.get('q2_text') || '',
+                q3: formData.get('q3'),
+                q3_text: formData.get('q3_text'),
+                q4: formData.get('q4'),
+                q5: formData.getAll('q5'),
+                q6: formData.get('q6'),
+                q7: formData.getAll('q7'),
+                q8: formData.get('q8'),
+                q9: formData.getAll('q9')
+            };
+
+            try {
+                const submitBtn = document.querySelector('.submit-btn');
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'שולח...';
+
+                await push(ref(database, 'new_survey_response'), answers);
+
+                // הסתר את הכותרת והטופס והצג את הודעת ההצלחה
+                document.querySelector('.header').style.display = 'none';
+                form.style.display = 'none';
+                document.getElementById('successMessage').classList.add('show');
+            } catch (error) {
+                console.error('Error:', error);
+                alert('אירעה שגיאה בשליחת השאלון. אנא נסה שוב.');
+                const submitBtn = document.querySelector('.submit-btn');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'שלח את השאלון';
+            }
+        });
+    </script>
+</body>
+</html>
