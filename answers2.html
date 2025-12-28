@@ -495,11 +495,13 @@
             const counts = {};
             responses.forEach(r => {
                 const value = r[field];
-                if (value && value !== 'לא רלוונטי') {
+                if (value && value !== 'לא רלוונטי' && value !== 'אף אחד') {
                     if (Array.isArray(value)) {
                         value.forEach(v => {
-                            // ספירה ישירה בלי נורמליזציה - נשתמש בערך המקורי
-                            counts[v] = (counts[v] || 0) + 1;
+                            // סנן את "אף אחד" מהספירה
+                            if (v !== 'אף אחד') {
+                                counts[v] = (counts[v] || 0) + 1;
+                            }
                         });
                     } else {
                         counts[value] = (counts[value] || 0) + 1;
